@@ -5,8 +5,14 @@ import java.util.Scanner;
 public class App {
 
     public static double calculateWaterBill(double gallonsUsage) {
-        // TODO: Implement method
-        return 0;
+        var totalBill = 18.84;
+        if(gallonsUsage > 1496) {
+            Double usedCCFs = (gallonsUsage - 1496)/749;
+            System.out.println(usedCCFs.intValue());
+            System.out.println(usedCCFs);
+            totalBill += 3.90 + (3.90 * usedCCFs.intValue());
+        }
+        return totalBill;
     }
 
     public static void main(String[] args) {
