@@ -14,13 +14,13 @@ public class App
                                       String[] redactedWordsArray) {
         try{
             var file = Files.readString(Path.of(fileName));
-            AtomicReference<String> redactedFileContent = new AtomicReference<>();
-            Arrays.stream(redactedWordsArray).forEach(word -> {              
+            AtomicReference<String> redactedFileContent = new AtomicReference<>(file);
+            for(String word : redactedWordsArray) {          
                 if(file.contains(word)) {
-                    redactedFileContent.set(file.replaceAll(word, "REDACTED"));
+                    redactedFileContent.set(redactedFileContent.get().replaceAll(word, "REDACTED"));
                 }
-            });
-            Files.write(Path.of(fileName), redactedFileContent.get().getBytes(), StandardOpenOption.CREATE);
+            };
+            Files.write(Path.of("redacted-"+fileName), redactedFileContent.get().getBytes(), StandardOpenOption.CREATE);
         } catch(IOException e) {
             System.out.println(e.getMessage());
         }
