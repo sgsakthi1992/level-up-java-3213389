@@ -12,6 +12,10 @@ public class App
 {
     public static void redactTextFile(String fileName,
                                       String[] redactedWordsArray) {
+        if (!fileName.endsWith(".txt")) {
+            System.out.println("This is not a text file.");
+            return;
+        }
         try{
             var file = Files.readString(Path.of(fileName));
             AtomicReference<String> redactedFileContent = new AtomicReference<>(file);
