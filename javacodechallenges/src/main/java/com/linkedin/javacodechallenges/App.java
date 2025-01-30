@@ -1,12 +1,30 @@
 package com.linkedin.javacodechallenges;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class App 
 {
     public static void redactTextFile(String fileName,
                                       String[] redactedWordsArray) {
-
+        try{
+            var file = Files.readString(Path.of(fileName));
+            AtomicReference<String> redactedFileContent = new AtomicReference<>();
+            Arrays.stream(redactedWordsArray).forEach(word -> {              
+                if(file.contains(word)) {
+                    redactedFileContent.set(file.replaceAll(word, "REDACTED"));
+                }
+            });
+            Files.write(Path.of(fileName), redactedFileContent.get().getBytes(), StandardOpenOption.CREATE);
+        } catch(IOException e) {
+            System.out.println(e.getMessage());
+        }
+        
     }
 
     public static void main(String[] args) {
